@@ -1,0 +1,35 @@
+import Link from "next/link";
+import type { Route } from "next";
+
+type NavItem = { href: Route; label: string };
+
+export default function SidebarLayout({
+  title,
+  subtitle,
+  nav,
+  activeHref,
+  children
+}: {
+  title: string;
+  subtitle: string;
+  nav: NavItem[];
+  activeHref: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="shell">
+      <aside className="sidebar">
+        <h3>{title}</h3>
+        <p className="small" style={{ color: "#b7c6e8", marginTop: 0 }}>{subtitle}</p>
+        <nav>
+          {nav.map((item) => (
+            <Link key={item.href} href={item.href} className={activeHref === item.href ? "active" : ""}>
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+      <div className="content">{children}</div>
+    </section>
+  );
+}

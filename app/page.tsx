@@ -1,95 +1,98 @@
 import Link from "next/link";
 
-const highlights = [
+const pillars = [
   {
-    title: "1-Month Fast-Track Program",
-    description: "Complete the entire course in 4 weeks with 8 total live classes.",
+    title: "AI + Legal Drafting Labs",
+    description: "Practice petitions, contracts, notices, and compliance drafts with structured AI prompts and review checklists."
   },
   {
-    title: "Deep Knowledge + Technical Skills",
-    description: "Learn AI fundamentals, legal-tech workflows, prompting, drafting, and practical implementation.",
+    title: "Indian Law Focus",
+    description: "Learn practical workflows aligned to Indian legal education, litigation support, and legal operations teams."
   },
   {
-    title: "Hands-On AI Training",
-    description: "Train on real tasks with guided exercises, class assignments, and mentor feedback.",
-  },
+    title: "Mentored Career Readiness",
+    description: "Get guided assignments, capstone work, and portfolio feedback to become job-ready in legal-tech roles."
+  }
 ];
 
-const reasonsToJoin = [
-  "Career-focused learning designed for students and working professionals.",
-  "Small-batch live classes for better doubt solving and personal guidance.",
-  "Industry-relevant curriculum that blends legal understanding with AI execution.",
-  "Certificate-ready progress with practical portfolio-building projects.",
+const outcomes = [
+  "Build reliable prompt frameworks for legal research and drafting.",
+  "Understand AI ethics, privacy, and responsible use in legal practice.",
+  "Deliver faster research summaries with verification-first methodology.",
+  "Track learning progress through a student dashboard and milestones."
+];
+
+const learnerTracks = [
+  "Law students preparing for internships and placements",
+  "Junior advocates and associates improving drafting speed",
+  "Compliance and legal operations professionals adopting AI",
+  "Founders and in-house teams building AI-supported legal workflows"
 ];
 
 export default function HomePage() {
   return (
     <>
-      <section className="hero hero-upgraded">
-        <span className="badge">Admissions Open • New Batch Starting Soon</span>
-        <h1>Become Future-Ready with AI Courses Built for Real Careers</h1>
+      <section className="hero hero-upgraded law-hero">
+        <span className="badge">AI Law Training Program • Admissions Open</span>
+        <h1>India&apos;s Practical AI Law Training Website for Students & Legal Professionals</h1>
         <p>
-          Join our premium <b>1-month course</b> with <b>8 total live classes</b> and hands-on implementation.
-          Build deep knowledge, technical skills, and practical AI training that helps you stand out.
+          Master real-world legal AI execution through live training, drafting labs, research simulations,
+          and guided implementation. This platform is designed as a complete AI law training website with
+          enrollment, secure student login, dashboard tracking, and admin monitoring.
         </p>
 
         <div className="cta-row">
           <Link className="btn flashy-btn" href="/register">
-            ✨ Enroll Now
+            Start Enrollment
           </Link>
           <Link className="btn btn-outline" href="/courses">
-            View Course Plan
+            Explore Course Curriculum
           </Link>
-        </div>
-
-        <div className="grid grid-3" style={{ marginTop: 24 }}>
-          {highlights.map((item) => (
-            <article className="card" key={item.title}>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="card promo-panel">
-        <h2>Why You Should Join These Courses</h2>
-        <div className="grid grid-2">
-          {reasonsToJoin.map((reason) => (
-            <p key={reason} className="benefit-item">
-              ✅ {reason}
-            </p>
-          ))}
-        </div>
-      </section>
-
-      <section className="card info-strip">
-        <div>
-          <h3>Student Access & Support</h3>
-          <p>
-            New students can quickly create an account and start learning through a simple register and login flow.
-          </p>
-        </div>
-        <div className="cta-row">
-          <Link href="/register" className="btn">
-            Student Register
-          </Link>
-          <Link href="/login" className="btn btn-outline">
+          <Link className="btn btn-outline" href="/login?role=student">
             Student Login
           </Link>
         </div>
       </section>
 
+      <section className="grid grid-3" style={{ marginTop: 16 }}>
+        {pillars.map((item) => (
+          <article className="card" key={item.title}>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </section>
+
+      <section className="card promo-panel">
+        <h2>What You&apos;ll Achieve in This AI Law Program</h2>
+        <div className="grid grid-2">
+          {outcomes.map((outcome) => (
+            <p className="benefit-item" key={outcome}>✅ {outcome}</p>
+          ))}
+        </div>
+      </section>
+
+      <section className="card info-strip">
+        <h2>Who Should Join</h2>
+        <div className="grid grid-2">
+          {learnerTracks.map((track) => (
+            <p key={track}>• {track}</p>
+          ))}
+        </div>
+      </section>
+
       <section className="card info-strip">
         <div>
-          <h3>Transparent Refund Policy</h3>
+          <h3>Platform Access</h3>
           <p>
-            We follow a clear and student-friendly refund policy. Please read all terms before payment.
+            Students can register, login, check fees and payment status, view progress, and access certificates from
+            one dashboard. Admins can monitor registered learners, fee submission, completion data, and system settings.
           </p>
         </div>
-        <Link href="/refund-policy" className="btn btn-outline">
-          Read Refund Policy
-        </Link>
+        <div className="cta-row">
+          <Link href="/register" className="btn">Register Now</Link>
+          <Link href="/login?role=admin" className="btn btn-outline">Admin Login</Link>
+        </div>
       </section>
 
       <p className="small" style={{ marginTop: 18 }}>

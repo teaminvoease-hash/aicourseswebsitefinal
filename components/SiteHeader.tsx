@@ -26,8 +26,11 @@ export default function SiteHeader() {
           <Link href="/register" className="btn btn-outline">
             Register
           </Link>
-          <Link href="/login" className="badge">
-            Login
+          <Link href="/login?role=student" className="badge">
+            Student Login
+          </Link>
+          <Link href="/login?role=admin" className="badge">
+            Admin Login
           </Link>
         </nav>
       </div>

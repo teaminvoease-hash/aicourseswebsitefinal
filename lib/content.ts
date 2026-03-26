@@ -1,4 +1,7 @@
 export type CourseCatalogItem = {
+  upcoming?: boolean;
+  batchStart: string;
+  seatsLeft: string;
   slug: string;
   title: string;
   shortDescription: string;
@@ -12,6 +15,7 @@ export type CourseCatalogItem = {
   modules: string[];
   instructor: string;
   eligibility: string;
+  tools: string[];
 };
 
 export const platformName = "LexMind AI Law Academy";
@@ -40,7 +44,10 @@ export const catalogCourses: CourseCatalogItem[] = [
       "Research Memos and Citation Workflows"
     ],
     instructor: "Adv. Rhea Mehta, Legal Research & AI Trainer",
-    eligibility: "Law students, associates, legal researchers, compliance teams"
+    eligibility: "Law students, associates, legal researchers, compliance teams",
+    batchStart: "April 15, 2026",
+    seatsLeft: "22 seats",
+    tools: ["ChatGPT", "Perplexity", "CanLII/Indian Kanoon workflows", "Google Scholar", "Notion"]
   },
   {
     slug: "ai-contract-drafting",
@@ -65,7 +72,10 @@ export const catalogCourses: CourseCatalogItem[] = [
       "Playbook-Based Redlining and Final Review"
     ],
     instructor: "Aarav Sinha, Contracts Counsel & Legal-Tech Consultant",
-    eligibility: "Law students, junior advocates, associates, in-house legal interns"
+    eligibility: "Law students, junior advocates, associates, in-house legal interns",
+    batchStart: "April 20, 2026",
+    seatsLeft: "18 seats",
+    tools: ["Contract playbooks", "MS Word AI", "Clause libraries", "Redline checklists"]
   },
   {
     slug: "ai-case-briefing-legal-writing",
@@ -90,7 +100,10 @@ export const catalogCourses: CourseCatalogItem[] = [
       "Review Rubrics for Legal Writing"
     ],
     instructor: "Nisha Rao, Legal Writing Specialist",
-    eligibility: "LLB/LLM students, judicial aspirants, legal researchers"
+    eligibility: "LLB/LLM students, judicial aspirants, legal researchers",
+    batchStart: "May 02, 2026",
+    seatsLeft: "26 seats",
+    tools: ["Brief templates", "IRAC frameworks", "Citation check prompts", "Grammar QA"]
   },
   {
     slug: "ai-compliance-documentation",
@@ -115,7 +128,11 @@ export const catalogCourses: CourseCatalogItem[] = [
       "Audit-Ready Evidence Management"
     ],
     instructor: "Sanjana Kulkarni, Compliance Lead",
-    eligibility: "Compliance professionals, legal associates, governance teams"
+    eligibility: "Compliance professionals, legal associates, governance teams",
+    batchStart: "May 06, 2026",
+    seatsLeft: "Upcoming batch",
+    upcoming: true,
+    tools: ["Policy drafting assistants", "Audit trackers", "Control matrix prompts", "Spreadsheet workflows"]
   },
   {
     slug: "ai-productivity-law-students-associates",
@@ -140,7 +157,10 @@ export const catalogCourses: CourseCatalogItem[] = [
       "Responsible AI Usage Checklist"
     ],
     instructor: "Arjun Desai, Legal Ops Specialist",
-    eligibility: "Students, associates, junior advocates, legal interns"
+    eligibility: "Students, associates, junior advocates, legal interns",
+    batchStart: "April 18, 2026",
+    seatsLeft: "31 seats",
+    tools: ["Task automation", "Knowledge base prompts", "Draft accelerators", "Deadline planners"]
   },
   {
     slug: "prompt-engineering-lawyers",
@@ -165,7 +185,11 @@ export const catalogCourses: CourseCatalogItem[] = [
       "Prompt Playbook Design"
     ],
     instructor: "Dr. Kabir Anand, Legal-Tech Faculty",
-    eligibility: "All law learners and legal professionals"
+    eligibility: "All law learners and legal professionals",
+    batchStart: "May 10, 2026",
+    seatsLeft: "Upcoming batch",
+    upcoming: true,
+    tools: ["Prompt libraries", "QC rubrics", "Instruction ladders", "Workflow templates"]
   }
 ];
 

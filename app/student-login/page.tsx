@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -18,21 +19,29 @@ export default function StudentLoginPage() {
       body: JSON.stringify({ emailOrMobile: credential, password, role: "student", remember }),
     });
     const data = await res.json();
-    if (!res.ok) return setMsg(data.error || "Login failed");
+    if (!res.ok) return setMsg(data.error || "Unable to sign in. Please verify credentials.");
     router.push("/student");
   }
 
   return (
-    <section className="card" style={{ maxWidth: 540 }}>
-      <h1>Student Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Email / Mobile<input required onChange={(e) => setCredential(e.target.value)} /></label>
-        <label>Password<input type="password" required onChange={(e) => setPassword(e.target.value)} /></label>
-        <label><input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} style={{ width: "auto", marginRight: 8 }} />Remember me</label>
-        <p className="small"><a href="#">Forgot password</a></p>
-        <button className="btn" type="submit">Login</button>
-        <p>{msg}</p>
-      </form>
+    <section className="grid grid-2">
+      <article className="card card-dark">
+        <h1 style={{ color: "#fff" }}>Student Login</h1>
+        <p>Securely access enrolled courses, live schedules, assignments, payment receipts, and certificate status.</p>
+        <p className="small" style={{ color: "#cfdbf5" }}>Need admissions help? <Link href="/contact">Talk to support</Link> or WhatsApp +1 (555) 010-2244.</p>
+      </article>
+      <article className="card" style={{ maxWidth: 560 }}>
+        <h2>Sign in to your dashboard</h2>
+        <form onSubmit={handleSubmit} className="grid" style={{ gap: 10 }}>
+          <label>Email / Mobile<input required onChange={(e) => setCredential(e.target.value)} /></label>
+          <label>Password<input type="password" required onChange={(e) => setPassword(e.target.value)} /></label>
+          <label><input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} style={{ width: "auto", marginRight: 8 }} />Remember me</label>
+          <p className="form-note">Forgot password? Reset flow placeholder available for support-assisted recovery.</p>
+          <button className="btn" type="submit">Secure Login</button>
+          {msg ? <p className="form-error">{msg}</p> : null}
+          <p className="form-note">New student? <Link href="/register">Create your account</Link>.</p>
+        </form>
+      </article>
     </section>
   );
 }

@@ -136,3 +136,11 @@ model SiteContent {
   body         String
   updatedAt    DateTime @updatedAt
 }
+
+
+model AppSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}

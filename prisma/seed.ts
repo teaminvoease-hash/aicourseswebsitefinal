@@ -67,6 +67,17 @@ async function main() {
     }
   });
 
+
+
+  await prisma.appSetting.upsert({
+    where: { key: "smtp_host" },
+    update: {},
+    create: {
+      key: "smtp_host",
+      value: "smtp.example.com"
+    }
+  });
+
   await prisma.siteContent.upsert({
     where: { pageKey: "home_hero" },
     update: {},

@@ -69,3 +69,18 @@ main { min-height:80vh; }
   padding: 0.5rem 0.25rem;
 }
 .small { color: var(--muted); font-size: 0.92rem; }
+
+
+.law-hero h1 {
+  max-width: 900px;
+}
+.law-hero p {
+  max-width: 900px;
+}
+.login-role-switch {
+  display: flex;
+  gap: 10px;
+}
+.login-role-switch .btn {
+  min-width: 110px;
+}

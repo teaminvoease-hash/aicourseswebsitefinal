@@ -44,6 +44,19 @@ export default function HomePage() {
           <Link href="/register" className="btn btn-outline">Enroll Now</Link>
           <Link href="/student-login" className="btn btn-outline">Student Login</Link>
         </div>
+        <section className="hero-metrics">
+          {[
+            ["1,500+", "Learners trained"],
+            ["96%", "Satisfaction score"],
+            ["24/7", "LMS access"],
+            ["ISO-style", "Compliance-ready policy stack"],
+          ].map(([value, label]) => (
+            <article key={label} className="metric-card">
+              <strong>{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </section>
       </section>
 
       <section style={{ marginTop: 18 }} className="grid grid-3">
@@ -86,6 +99,19 @@ export default function HomePage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="grid grid-3" style={{ marginTop: 18 }}>
+        {[
+          ["Role-based dashboards", "Separate admin and student workspaces with controlled access."],
+          ["Integrated PayU checkout", "Secure fee collection before course unlock and tracking."],
+          ["MCQ completion engine", "Finalize course completion through scored assessments."],
+        ].map(([title, note]) => (
+          <article className="card" key={title}>
+            <h3>{title}</h3>
+            <p className="small">{note}</p>
+          </article>
+        ))}
       </section>
 
       <section className="grid grid-2" style={{ marginTop: 18 }}>

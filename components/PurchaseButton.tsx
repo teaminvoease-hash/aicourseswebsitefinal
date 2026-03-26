@@ -7,7 +7,7 @@ export default function PurchaseButton({ courseSlug }: { courseSlug: string }) {
   const [couponCode, setCouponCode] = useState("");
 
   async function purchase() {
-    setMessage("Creating order...");
+    setMessage("Creating PayU order...");
     const orderRes = await fetch("/api/payment/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -20,28 +20,31 @@ export default function PurchaseButton({ courseSlug }: { courseSlug: string }) {
     }
 
     const order = await orderRes.json();
-    const verifyRes = await fetch("/api/payment/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ paymentId: order.paymentId, txnId: `SIM-${Date.now()}` })
-    });
+    const paymentForm = document.createElement("form");
+    paymentForm.method = "POST";
+    paymentForm.action = order.payu.action;
 
-    if (!verifyRes.ok) {
-      setMessage("Payment verification failed.");
-      return;
+    for (const [key, value] of Object.entries(order.payu.fields)) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = String(value);
+      paymentForm.appendChild(input);
     }
 
-    setMessage(`Payment success. ₹${order.amountInr} paid. Full course unlocked in dashboard.`);
+    document.body.appendChild(paymentForm);
+    setMessage("Redirecting to PayU secure checkout...");
+    paymentForm.submit();
   }
 
   return (
     <div className="card" style={{ marginTop: 12 }}>
-      <p>One-time full payment only.</p>
+      <p>One-time full payment only through PayU secure gateway.</p>
       <label>
         Coupon code (optional)
         <input value={couponCode} onChange={(e) => setCouponCode(e.target.value.toUpperCase())} />
       </label>
-      <button className="btn" style={{ marginTop: 10 }} onClick={purchase}>Pay & Unlock Course</button>
+      <button className="btn" style={{ marginTop: 10 }} onClick={purchase}>Pay with PayU & Unlock Course</button>
       <p>{message}</p>
     </div>
   );

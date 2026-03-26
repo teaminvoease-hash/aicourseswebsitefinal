@@ -16,6 +16,7 @@ type LiveClass = {
 
 type EnrollmentWithCourse = {
   id: string | number;
+  courseId: string;
   course: {
     title: string;
     lessons: Lesson[];
@@ -30,6 +31,10 @@ export default async function StudentCoursePage() {
   const enrollments: EnrollmentWithCourse[] = await prisma.enrollment.findMany({
     where: { userId: session.userId },
     include: { course: { include: { lessons: true, liveClasses: true } } }
+  });
+  const attempts = await prisma.mcqAttempt.findMany({
+    where: { userId: session.userId },
+    orderBy: { submittedAt: "desc" }
   });
 
   if (enrollments.length === 0) {
@@ -51,6 +56,9 @@ export default async function StudentCoursePage() {
           <ul>{enroll.course.lessons.map((l: Lesson) => <li key={l.id}>{l.orderNo}. {l.title}</li>)}</ul>
           <h4>Weekly Live Class Schedule</h4>
           <ul>{enroll.course.liveClasses.map((c: LiveClass) => <li key={c.id}>{new Date(c.classDate).toDateString()} - {c.title}</li>)}</ul>
+          <p className="small">
+            MCQ completion status: {attempts.find((a) => a.courseId === enroll.courseId) ? "Test submitted ✅" : "Pending submission"}
+          </p>
         </article>
       ))}
     </section>

@@ -8,7 +8,7 @@ const modules = [
   ["Course Progress", "/student/progress"],
   ["Live Class Schedule", "/student/course"],
   ["Study Materials", "/student/course"],
-  ["Assignments / Quiz", "/student/progress"],
+  ["Assignments / Quiz", "/student/mcq"],
   ["Certificate Download", "/student/certificate"],
   ["Profile Management", "/student/profile"],
   ["Payment History", "/student"],

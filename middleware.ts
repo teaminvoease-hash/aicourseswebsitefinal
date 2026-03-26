@@ -1,39 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "@/lib/auth";
 
-const protectedStudentRoutes = ["/student"];
-const protectedAdminRoutes = ["/admin"];
+const protectedPrefixes = ["/student", "/admin"];
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const isProtected = protectedPrefixes.some((prefix) => pathname.startsWith(prefix));
+
+  if (!isProtected) return NextResponse.next();
+
   const token = request.cookies.get("ailaw_token")?.value;
-  const pathname = request.nextUrl.pathname;
-
-  const requiresStudent = protectedStudentRoutes.some((route) => pathname.startsWith(route));
-  const requiresAdmin = protectedAdminRoutes.some((route) => pathname.startsWith(route));
-
-  if (!requiresStudent && !requiresAdmin) return NextResponse.next();
-
   if (!token) {
-    const loginUrl = new URL(requiresAdmin ? "/login?role=admin" : "/login", request.url);
+    const loginUrl = new URL(pathname.startsWith("/admin") ? "/login?role=admin" : "/login", request.url);
     return NextResponse.redirect(loginUrl);
   }
 
-  try {
-    const payload = verifyToken(token);
-
-    if (requiresAdmin && payload.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/student", request.url));
-    }
-
-    if (requiresStudent && payload.role !== "STUDENT" && payload.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-
-    return NextResponse.next();
-  } catch {
-    const loginUrl = new URL("/login", request.url);
-    return NextResponse.redirect(loginUrl);
-  }
+  // Note: JWT verification is performed in server components/API routes.
+  // Middleware runs on Edge runtime, so keep it lightweight and runtime-safe.
+  return NextResponse.next();
 }
 
 export const config = {

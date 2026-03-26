@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function LoginPage() {
+function LoginForm() {
   const params = useSearchParams();
   const role = params.get("role") || "student";
   const router = useRouter();
@@ -33,5 +33,13 @@ export default function LoginPage() {
         <p>{msg}</p>
       </form>
     </section>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<section><h1>Login</h1><p>Loading...</p></section>}>
+      <LoginForm />
+    </Suspense>
   );
 }

@@ -4,9 +4,10 @@ const links = [
   ["Home", "/"],
   ["About", "/about"],
   ["Courses", "/courses"],
+  ["Refund Policy", "/refund-policy"],
   ["FAQ", "/faq"],
   ["Contact", "/contact"],
-  ["Verify Certificate", "/verify-certificate"]
+  ["Verify Certificate", "/verify-certificate"],
 ] as const;
 
 export default function SiteHeader() {
@@ -22,6 +23,9 @@ export default function SiteHeader() {
               {label}
             </Link>
           ))}
+          <Link href="/register" className="btn btn-outline">
+            Register
+          </Link>
           <Link href="/login" className="badge">
             Login
           </Link>

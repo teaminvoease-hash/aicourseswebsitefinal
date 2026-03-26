@@ -1,11 +1,11 @@
 :root {
-  --bg: #f4f6fb;
+  --bg: #f5f8ff;
   --card: #ffffff;
   --text: #111827;
   --muted: #4b5563;
-  --brand: #0f1f47;
-  --brand-2: #15306d;
-  --accent: #3a86ff;
+  --brand: #0a2540;
+  --brand-2: #173c73;
+  --accent: #2563eb;
   --gold: #c8a34d;
   --border: #d8deea;
 }
@@ -15,7 +15,7 @@ body {
   margin: 0;
   font-family: Inter, "Segoe UI", system-ui, sans-serif;
   color: var(--text);
-  background: linear-gradient(180deg, #eef2fa 0%, #f7f9fd 35%, #f4f6fb 100%);
+  background: radial-gradient(circle at 10% -10%, #dbeafe 0%, #f5f8ff 45%, #f8fbff 100%);
 }
 a { color: inherit; text-decoration: none; }
 main { min-height: 82vh; padding: 2rem 0 3rem; }
@@ -28,7 +28,7 @@ main { min-height: 82vh; padding: 2rem 0 3rem; }
 .nav-links { display:flex; gap:0.95rem; flex-wrap:wrap; align-items: center; font-size:0.92rem; }
 .brand { font-weight:800; color: var(--brand); letter-spacing: 0.2px; }
 
-.btn { display:inline-flex; align-items:center; justify-content:center; background:var(--brand); color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; cursor:pointer; font-weight: 600; }
+.btn { display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#fff; border:none; padding:0.72rem 1rem; border-radius:10px; cursor:pointer; font-weight: 600; box-shadow: 0 8px 20px rgba(23,60,115,0.22); }
 .btn-outline { background:#fff; color:var(--brand); border:1px solid #aeb9d4; }
 .badge { background:#e9efff; color:var(--brand); border: 1px solid #c8d7ff; padding:0.22rem 0.55rem; border-radius:999px; font-size:0.78rem; }
 
@@ -37,12 +37,16 @@ main { min-height: 82vh; padding: 2rem 0 3rem; }
 .grid-3 { grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); }
 .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1rem; box-shadow: 0 8px 28px rgba(15,31,71,0.06); }
 .hero {
-  background: linear-gradient(120deg, rgba(15,31,71,0.95), rgba(21,48,109,0.9));
+  background: linear-gradient(120deg, rgba(10,37,64,0.97), rgba(23,60,115,0.94));
   color: #fff;
   border-radius: 20px;
   padding: 2rem;
   border: 1px solid #2e4f99;
 }
+.hero-metrics { margin-top: 1.2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.metric-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.24); border-radius: 12px; padding: 10px; display: grid; gap: 4px; }
+.metric-card strong { font-size: 1.2rem; }
+.metric-card span { color: #dbeafe; font-size: 0.85rem; }
 .hero h1 { margin: 0.7rem 0; font-size: clamp(1.8rem, 3.8vw, 2.8rem); }
 .hero p { color: #e5eaf8; max-width: 780px; line-height: 1.6; }
 .section-title { font-size: 1.5rem; margin-bottom: 0.4rem; }

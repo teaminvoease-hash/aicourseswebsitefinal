@@ -11,7 +11,7 @@ const modules = [
   ["Payment tracking", "/admin/payments"],
   ["Upload class schedules", "/admin/schedules"],
   ["Upload learning materials", "/admin/content"],
-  ["Create quizzes/assignments", "/admin/content"],
+  ["Create quizzes/assignments", "/admin/mcq"],
   ["Manage certificates", "/admin/certificates"],
   ["Support/contact requests", "/admin/content"],
   ["Website content management", "/admin/content"],

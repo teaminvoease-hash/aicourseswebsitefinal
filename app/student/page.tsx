@@ -3,16 +3,21 @@ import { redirect } from "next/navigation";
 import { getSessionFromCookie } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-type Payment = {
-  id: string | number;
-  providerOrderId: string;
-  amountInr: number;
-  status: string;
-};
+const modules = [
+  ["My Courses", "/student/course"],
+  ["Course Progress", "/student/progress"],
+  ["Live Class Schedule", "/student/course"],
+  ["Study Materials", "/student/course"],
+  ["Assignments / Quiz", "/student/progress"],
+  ["Certificate Download", "/student/certificate"],
+  ["Profile Management", "/student/profile"],
+  ["Payment History", "/student"],
+  ["Help & Support", "/contact"],
+] as const;
 
 export default async function StudentDashboard() {
   const session = getSessionFromCookie();
-  if (!session) redirect("/login");
+  if (!session) redirect("/student-login");
 
   const user = await prisma.user.findUnique({
     where: { id: session.userId },
@@ -20,26 +25,52 @@ export default async function StudentDashboard() {
       enrollments: { include: { course: true } },
       payments: { orderBy: { createdAt: "desc" } },
       certificates: true,
-      progressRecords: true
-    }
+      progressRecords: true,
+    },
   });
 
-  if (!user) redirect("/login");
+  if (!user) redirect("/student-login");
+
+  const upcoming = user.enrollments.flatMap((e) => []);
 
   return (
-    <section>
-      <h1>Student Dashboard</h1>
-      <div className="grid grid-3">
-        <Link className="card" href="/student/profile"><h3>Profile</h3><p>{user.fullName}</p></Link>
-        <Link className="card" href="/student/course"><h3>Purchased Course Access</h3><p>{user.enrollments.length} course(s)</p></Link>
-        <Link className="card" href="/student/progress"><h3>Progress Tracker</h3><p>{user.progressRecords[0]?.percentage ?? 0}%</p></Link>
-        <Link className="card" href="/student/certificate"><h3>Certificate</h3><p>{user.certificates[0]?.isIssued ? "Available" : "Pending"}</p></Link>
-      </div>
-      <h3 style={{ marginTop: 16 }}>Payment Status</h3>
-      <table className="table">
-        <thead><tr><th>Order</th><th>Amount</th><th>Status</th></tr></thead>
-        <tbody>{user.payments.map((p: Payment) => <tr key={p.id}><td>{p.providerOrderId}</td><td>₹{p.amountInr}</td><td>{p.status}</td></tr>)}</tbody>
-      </table>
+    <section className="grid" style={{ gap: 16 }}>
+      <article className="card">
+        <h1>Welcome, {user.fullName}</h1>
+        <p className="small">Track enrolled courses, progress, payments, assessments, materials, and certificates from one dashboard.</p>
+      </article>
+
+      <section className="grid grid-3">
+        <article className="card"><p className="small">Enrolled Courses</p><p className="kpi">{user.enrollments.length}</p></article>
+        <article className="card"><p className="small">Average Progress</p><p className="kpi">{user.progressRecords[0]?.percentage ?? 0}%</p></article>
+        <article className="card"><p className="small">Certificate Status</p><p className="kpi">{user.certificates.some((c) => c.isIssued) ? "Issued" : "Pending"}</p></article>
+      </section>
+
+      <section className="grid grid-3">
+        {modules.map(([name, href]) => (
+          <Link key={name} href={href} className="card"><strong>{name}</strong></Link>
+        ))}
+      </section>
+
+      <article className="card">
+        <h3>Upcoming Live Classes</h3>
+        <p className="small">Class schedules appear here once published by admin.</p>
+        <p>{upcoming.length === 0 ? "No classes scheduled yet." : "Schedules available."}</p>
+      </article>
+
+      <article className="card">
+        <h3>Payment Status</h3>
+        <table className="table">
+          <thead><tr><th>Order</th><th>Amount</th><th>Status</th><th>Provider</th></tr></thead>
+          <tbody>
+            {user.payments.map((p) => (
+              <tr key={p.id}><td>{p.providerOrderId}</td><td>₹{p.amountInr}</td><td>{p.status}</td><td>{p.provider}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </article>
+
+      <p className="small">Certificate disclaimer: completion certificate only; not a statutory qualification or legal practice license.</p>
     </section>
   );
 }

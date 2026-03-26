@@ -8,7 +8,12 @@ export async function POST(request: Request) {
   const parsed = loginSchema.safeParse(body);
   if (!parsed.success) return NextResponse.json({ error: "Invalid input" }, { status: 400 });
 
-  const user = await prisma.user.findUnique({ where: { email: parsed.data.email } });
+  const user = await prisma.user.findFirst({
+    where: {
+      OR: [{ email: parsed.data.emailOrMobile }, { mobile: parsed.data.emailOrMobile }],
+    },
+  });
+
   if (!user) return NextResponse.json({ error: "Invalid credentials" }, { status: 401 });
 
   const match = await comparePassword(parsed.data.password, user.passwordHash);

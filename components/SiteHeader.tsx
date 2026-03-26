@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { platformName } from "@/lib/content";
 
 const links = [
   ["Home", "/"],
   ["About", "/about"],
   ["Courses", "/courses"],
-  ["Refund Policy", "/refund-policy"],
+  ["How to Enroll", "/how-to-enroll"],
   ["FAQ", "/faq"],
   ["Contact", "/contact"],
   ["Verify Certificate", "/verify-certificate"],
@@ -15,7 +16,7 @@ export default function SiteHeader() {
     <header className="header">
       <div className="container nav">
         <Link href="/" className="brand">
-          AI Law Academy India
+          {platformName}
         </Link>
         <nav className="nav-links">
           {links.map(([label, href]) => (
@@ -23,11 +24,11 @@ export default function SiteHeader() {
               {label}
             </Link>
           ))}
-          <Link href="/register" className="btn btn-outline">
-            Register
+          <Link href="/student-login" className="btn btn-outline">
+            Student Login
           </Link>
-          <Link href="/login" className="badge">
-            Login
+          <Link href="/register" className="btn">
+            Enroll Now
           </Link>
         </nav>
       </div>

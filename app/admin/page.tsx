@@ -1,8 +1,9 @@
 import Link from "next/link";
+import type { Route } from "next";
 import { redirect } from "next/navigation";
 import { getSessionFromCookie } from "@/lib/auth";
 
-const modules = [
+const modules: ReadonlyArray<readonly [string, Route]> = [
   ["Manage Students", "/admin/students"],
   ["Manage Courses", "/admin/courses"],
   ["Manage Payments", "/admin/payments"],

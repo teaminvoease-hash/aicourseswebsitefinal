@@ -4,11 +4,18 @@ import { cookies } from "next/headers";
 
 const COOKIE_NAME = "ailaw_token";
 
+export const USER_ROLES = ["STUDENT", "ADMIN"] as const;
+export type UserRole = (typeof USER_ROLES)[number];
+
 export type SessionPayload = {
   userId: string;
-  role: "STUDENT" | "ADMIN";
+  role: UserRole;
   email: string;
 };
+
+export function isUserRole(value: string): value is UserRole {
+  return USER_ROLES.includes(value as UserRole);
+}
 
 function getSecret() {
   const secret = process.env.JWT_SECRET;

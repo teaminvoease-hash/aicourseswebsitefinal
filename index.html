@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Check</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #e7f0ff, #f7fff1);
+      }
+
+      .card {
+        width: min(90vw, 460px);
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      .status {
+        margin: 1rem 0;
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+      }
+
+      .ok .dot {
+        background: #16a34a;
+      }
+
+      .down .dot {
+        background: #dc2626;
+      }
+
+      button {
+        border: 0;
+        border-radius: 10px;
+        background: #2563eb;
+        color: #fff;
+        padding: 0.7rem 1rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+      }
+
+      .note {
+        margin-top: 0.8rem;
+        color: #4b5563;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>System Status Checker</h1>
+      <p>Click the button to test if the system is working.</p>
+
+      <div id="status" class="status down" aria-live="polite">
+        <span class="dot" aria-hidden="true"></span>
+        Not checked yet
+      </div>
+
+      <button id="checkBtn" type="button">Run Check</button>
+      <p id="time" class="note"></p>
+    </main>
+
+    <script>
+      const statusEl = document.getElementById('status');
+      const timeEl = document.getElementById('time');
+      const button = document.getElementById('checkBtn');
+
+      function runSystemCheck() {
+        // Simulated health check
+        const isWorking = navigator.onLine && Math.random() > 0.2;
+        const checkedAt = new Date().toLocaleTimeString();
+
+        if (isWorking) {
+          statusEl.className = 'status ok';
+          statusEl.innerHTML = '<span class="dot" aria-hidden="true"></span>System is working ✅';
+        } else {
+          statusEl.className = 'status down';
+          statusEl.innerHTML = '<span class="dot" aria-hidden="true"></span>System may be down ❌';
+        }
+
+        timeEl.textContent = `Last checked at ${checkedAt}`;
+      }
+
+      button.addEventListener('click', runSystemCheck);
+    </script>
+  </body>
+</html>

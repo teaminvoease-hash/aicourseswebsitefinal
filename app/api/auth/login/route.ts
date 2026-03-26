@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { comparePassword, setSessionCookie, signToken } from "@/lib/auth";
+import { comparePassword, isUserRole, setSessionCookie, signToken } from "@/lib/auth";
 import { loginSchema } from "@/lib/validators";
 
 export async function POST(request: Request) {
@@ -16,6 +16,10 @@ export async function POST(request: Request) {
 
   if (body.role === "admin" && user.role !== "ADMIN") {
     return NextResponse.json({ error: "Not an admin account" }, { status: 403 });
+  }
+
+  if (!isUserRole(user.role)) {
+    return NextResponse.json({ error: "Invalid account role" }, { status: 500 });
   }
 
   const token = signToken({ userId: user.id, role: user.role, email: user.email });

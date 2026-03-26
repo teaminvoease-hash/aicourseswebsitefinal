@@ -7,24 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  STUDENT
-  ADMIN
-}
-
-enum PaymentStatus {
-  PENDING
-  SUCCESS
-  FAILED
-}
-
 model User {
   id               String       @id @default(cuid())
   fullName         String
   email            String       @unique
   mobile           String
   passwordHash     String
-  role             Role         @default(STUDENT)
+  role             String       @default("STUDENT")
   lawCollege       String?
   yearSemester     String?
   cityState        String?
@@ -95,7 +84,7 @@ model Payment {
   userId           String
   courseId         String
   amountInr        Int
-  status           PaymentStatus @default(PENDING)
+  status           String       @default("PENDING")
   provider         String        @default("MockGateway")
   providerOrderId  String
   providerTxnId    String?

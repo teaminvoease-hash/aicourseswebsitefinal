@@ -1,12 +1,15 @@
+import { faqs } from "@/lib/content";
+
 export default function FaqPage() {
   return (
-    <section>
-      <h1>FAQ</h1>
-      <div className="card">
-        <h4>Is this legal advice?</h4><p>No. This course is educational and not legal advice.</p>
-        <h4>What is the fee?</h4><p>₹4000 standard, currently discounted to ₹3000.</p>
-        <h4>How are classes conducted?</h4><p>Weekly online live classes plus recorded modules.</p>
-      </div>
+    <section className="card">
+      <h1>Frequently Asked Questions</h1>
+      {faqs.map((item) => (
+        <article key={item.q} style={{ marginBottom: 14 }}>
+          <h3 style={{ marginBottom: 6 }}>{item.q}</h3>
+          <p className="small" style={{ marginTop: 0 }}>{item.a}</p>
+        </article>
+      ))}
     </section>
   );
 }

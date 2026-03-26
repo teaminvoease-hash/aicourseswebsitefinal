@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import { platformName } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "AI Law Academy India",
-  description: "AI law course platform for Indian students and legal professionals"
+  title: `${platformName} | AI Law Courses`,
+  description:
+    "Premium AI law courses for law students, legal associates, compliance professionals, and legal-tech learners.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

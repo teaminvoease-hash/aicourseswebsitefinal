@@ -10,7 +10,7 @@ type ProgressRecord = {
 
 export default async function StudentProgressPage() {
   const session = getSessionFromCookie();
-  if (!session) redirect("/login");
+  if (!session) redirect("/student-login");
   const progress: ProgressRecord[] = await prisma.progress.findMany({ where: { userId: session.userId } });
 
   return (

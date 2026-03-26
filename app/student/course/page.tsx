@@ -25,7 +25,7 @@ type EnrollmentWithCourse = {
 
 export default async function StudentCoursePage() {
   const session = getSessionFromCookie();
-  if (!session) redirect("/login");
+  if (!session) redirect("/student-login");
 
   const enrollments: EnrollmentWithCourse[] = await prisma.enrollment.findMany({
     where: { userId: session.userId },

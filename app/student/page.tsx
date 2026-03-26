@@ -3,6 +3,13 @@ import { redirect } from "next/navigation";
 import { getSessionFromCookie } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+type Payment = {
+  id: string | number;
+  providerOrderId: string;
+  amountInr: number;
+  status: string;
+};
+
 export default async function StudentDashboard() {
   const session = getSessionFromCookie();
   if (!session) redirect("/login");
@@ -31,7 +38,7 @@ export default async function StudentDashboard() {
       <h3 style={{ marginTop: 16 }}>Payment Status</h3>
       <table className="table">
         <thead><tr><th>Order</th><th>Amount</th><th>Status</th></tr></thead>
-        <tbody>{user.payments.map((p) => <tr key={p.id}><td>{p.providerOrderId}</td><td>₹{p.amountInr}</td><td>{p.status}</td></tr>)}</tbody>
+        <tbody>{user.payments.map((p: Payment) => <tr key={p.id}><td>{p.providerOrderId}</td><td>₹{p.amountInr}</td><td>{p.status}</td></tr>)}</tbody>
       </table>
     </section>
   );

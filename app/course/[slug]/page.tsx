@@ -3,6 +3,12 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import PurchaseButton from "@/components/PurchaseButton";
 
+type Lesson = {
+  id: string | number;
+  orderNo: number;
+  title: string;
+};
+
 export default async function CourseDetailPage({ params }: { params: { slug: string } }) {
   const course = await prisma.course.findUnique({
     where: { slug: params.slug },
@@ -20,7 +26,7 @@ export default async function CourseDetailPage({ params }: { params: { slug: str
       </p>
       <h3>Modules</h3>
       <ul>
-        {course.lessons.map((lesson) => (
+        {course.lessons.map((lesson: Lesson) => (
           <li key={lesson.id}>{lesson.orderNo}. {lesson.title}</li>
         ))}
       </ul>

@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model User {
+  id               String       @id @default(cuid())
+  fullName         String
+  email            String       @unique
+  mobile           String
+  passwordHash     String
+  role             Role         @default(STUDENT)
+  lawCollege       String?
+  yearSemester     String?
+  cityState        String?
+  profession       String?
+  profilePhotoUrl  String?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  enrollments      Enrollment[]
+  payments         Payment[]
+  certificates     Certificate[]
+  progressRecords  Progress[]
+}
+
+model Course {
+  id                String       @id @default(cuid())
+  slug              String       @unique
+  title             String
+  shortDescription  String
+  description       String
+  feeInr            Int          @default(4000)
+  discountedFeeInr  Int          @default(3000)
+  durationWeeks     Int          @default(12)
+  isPublished       Boolean      @default(true)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  lessons           Lesson[]
+  liveClasses       LiveClass[]
+  enrollments       Enrollment[]
+  payments          Payment[]
+  certificates      Certificate[]
+}
+
+model Lesson {
+  id         String   @id @default(cuid())
+  courseId   String
+  title      String
+  content    String
+  orderNo    Int
+  createdAt  DateTime @default(now())
+  course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, orderNo])
+}
+
+model LiveClass {
+  id          String   @id @default(cuid())
+  courseId    String
+  title       String
+  classDate   DateTime
+  meetingLink String
+  createdAt   DateTime @default(now())
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model Enrollment {
+  id          String   @id @default(cuid())
+  userId      String
+  courseId    String
+  enrolledAt  DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+}
+
+model Payment {
+  id               String        @id @default(cuid())
+  userId           String
+  courseId         String
+  amountInr        Int
+  status           PaymentStatus @default(PENDING)
+  provider         String        @default("MockGateway")
+  providerOrderId  String
+  providerTxnId    String?
+  couponCode       String?
+  paidAt           DateTime?
+  createdAt        DateTime      @default(now())
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course           Course        @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model Certificate {
+  id               String   @id @default(cuid())
+  userId           String
+  courseId         String
+  verificationId   String   @unique
+  issuedAt         DateTime @default(now())
+  fileUrl          String?
+  isIssued         Boolean  @default(false)
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course           Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+}
+
+model Progress {
+  id          String   @id @default(cuid())
+  userId      String
+  courseId    String
+  percentage  Int      @default(0)
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+}
+
+model Coupon {
+  id           String   @id @default(cuid())
+  code         String   @unique
+  discountInr  Int
+  isActive     Boolean  @default(true)
+  validTill    DateTime?
+  createdAt    DateTime @default(now())
+}
+
+model SiteContent {
+  id           String   @id @default(cuid())
+  pageKey      String   @unique
+  title        String
+  body         String
+  updatedAt    DateTime @updatedAt
+}

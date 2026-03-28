@@ -1,0 +1,3 @@
+<?php $metaTitle='Disclaimer | LexAI Academy'; include __DIR__.'/includes/header.php'; ?>
+<section class="container py-5"><h1>Disclaimer</h1><p>LexAI Academy provides educational training on AI tools for legal workflows. Nothing on this platform is legal advice, legal opinion, or representation.</p><p>AI outputs may contain errors and must always be validated through authoritative legal sources and professional judgment.</p><h3>Certificate Disclaimer</h3><p>Certificates are issued for course completion only. They do not confer statutory legal qualification, bar enrollment, or professional licensing rights.</p><p>Public verification is available via unique verification IDs issued by LexAI Academy.</p></section>
+<?php include __DIR__.'/includes/footer.php'; ?>

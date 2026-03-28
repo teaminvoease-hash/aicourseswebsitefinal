@@ -1,0 +1,3 @@
+<?php $metaTitle='FAQ | LexAI Academy'; include __DIR__.'/includes/header.php'; $faqs=$db->query('SELECT * FROM faqs WHERE is_active=1 ORDER BY sort_order,id')->fetchAll(); ?>
+<section class="container py-5"><h1>FAQ</h1><div class="accordion mt-3"><?php foreach($faqs as $i=>$f):?><div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button <?= $i?'collapsed':''?>" data-bs-toggle="collapse" data-bs-target="#a<?=$i?>"><?=e($f['question'])?></button></h2><div id="a<?=$i?>" class="accordion-collapse collapse <?=!$i?'show':''?>"><div class="accordion-body"><?=e($f['answer'])?></div></div></div><?php endforeach;?></div></section>
+<?php include __DIR__.'/includes/footer.php'; ?>

@@ -15,6 +15,13 @@ const pillars = [
   }
 ];
 
+const trustHighlights = [
+  { label: "Live weekly sessions", value: "Every Week" },
+  { label: "Program fee", value: "₹3,000 (discounted)" },
+  { label: "Certificate verification", value: "Public & Unique ID" },
+  { label: "Access model", value: "One-time payment" }
+];
+
 const outcomes = [
   "Build reliable prompt frameworks for legal research and drafting.",
   "Understand AI ethics, privacy, and responsible use in legal practice.",
@@ -33,12 +40,12 @@ export default function HomePage() {
   return (
     <>
       <section className="hero hero-upgraded law-hero">
-        <span className="badge">AI Law Training Program • Admissions Open</span>
-        <h1>India&apos;s Practical AI Law Training Website for Students & Legal Professionals</h1>
+        <span className="badge">AI Law Training Program • Admissions Open for 2026 Cohort</span>
+        <h1>Build Real AI Skills for Legal Work — Not Just Theory</h1>
         <p>
-          Master real-world legal AI execution through live training, drafting labs, research simulations,
-          and guided implementation. This platform is designed as a complete AI law training website with
-          enrollment, secure student login, dashboard tracking, and admin monitoring.
+          Master practical legal AI workflows through live classes, drafting labs, and research simulations.
+          From enrollment to certificate verification, this platform is built for real students, active legal
+          professionals, and teams adopting AI in day-to-day legal execution.
         </p>
 
         <div className="cta-row">
@@ -52,6 +59,15 @@ export default function HomePage() {
             Student Login
           </Link>
         </div>
+      </section>
+
+      <section className="grid grid-4" style={{ marginTop: 16 }}>
+        {trustHighlights.map((item) => (
+          <article className="card kpi" key={item.label}>
+            <span className="small">{item.label}</span>
+            <strong>{item.value}</strong>
+          </article>
+        ))}
       </section>
 
       <section className="grid grid-3" style={{ marginTop: 16 }}>
@@ -83,10 +99,11 @@ export default function HomePage() {
 
       <section className="card info-strip">
         <div>
-          <h3>Platform Access</h3>
+          <h3>Built for Real Training Operations</h3>
           <p>
-            Students can register, login, check fees and payment status, view progress, and access certificates from
-            one dashboard. Admins can monitor registered learners, fee submission, completion data, and system settings.
+            Students can register, complete payment, access course modules, track progress, submit assignments,
+            and verify certificates in one workflow. Admin teams can manage students, schedules, payments, and
+            certification status from a centralized dashboard.
           </p>
         </div>
         <div className="cta-row">

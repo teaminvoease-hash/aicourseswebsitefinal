@@ -19,8 +19,9 @@ export default function SidebarLayout({
   return (
     <section className="shell">
       <aside className="sidebar">
-        <h3>{title}</h3>
-        <p className="small" style={{ color: "#b7c6e8", marginTop: 0 }}>{subtitle}</p>
+        <span className="badge badge-info">Workspace</span>
+        <h3 style={{ marginTop: ".55rem" }}>{title}</h3>
+        <p className="small" style={{ marginTop: 0 }}>{subtitle}</p>
         <nav>
           {nav.map((item) => (
             <Link key={item.href} href={item.href} className={activeHref === item.href ? "active" : ""}>
@@ -29,7 +30,7 @@ export default function SidebarLayout({
           ))}
         </nav>
       </aside>
-      <div className="content">{children}</div>
+      <div>{children}</div>
     </section>
   );
 }

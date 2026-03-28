@@ -23,6 +23,7 @@ export default async function StudentDashboard() {
   const avgProgress = user.progressRecords.length
     ? Math.round(user.progressRecords.reduce((sum, p) => sum + p.percentage, 0) / user.progressRecords.length)
     : 0;
+
   const nextLiveClass = await prisma.liveClass.findFirst({
     where: { course: { enrollments: { some: { userId: user.id } } }, classDate: { gte: new Date() } },
     include: { course: true },
@@ -30,53 +31,57 @@ export default async function StudentDashboard() {
   });
 
   return (
-    <SidebarLayout title="Student Portal" subtitle="Learning, classes, certificates, support" nav={[...studentNav]} activeHref="/student">
-      <h1>Welcome back, {user.fullName.split(" ")[0]}</h1>
-      <p className="small">Continue your legal-tech learning journey with live sessions, assignments, and completion milestones.</p>
+    <SidebarLayout title="Student Workspace" subtitle="Courses, live sessions, performance, and certification" nav={[...studentNav]} activeHref="/student">
+      <section className="hero" style={{ marginTop: 0, padding: "1rem" }}>
+        <span className="badge badge-success">Welcome back</span>
+        <h1 style={{ fontSize: "clamp(1.6rem,2.8vw,2.35rem)" }}>{user.fullName.split(" ")[0]}, continue your AI law sprint.</h1>
+        <p>Track milestones, complete assignments, and stay on schedule to unlock certificate eligibility.</p>
+        <div className="cta-row">
+          <Link href="/student/course" className="btn">Resume Learning</Link>
+          <Link href="/student/live-schedule" className="btn btn-outline">Live Schedule</Link>
+        </div>
+      </section>
 
-      <div className="card" style={{ marginBottom: 12 }}>
-        <h3 style={{ marginTop: 0 }}>Continue Learning</h3>
-        <p className="small">Pick up where you left off and stay on track for certification.</p>
-        <Link href="/student/course" className="btn">Resume My Courses</Link>
-      </div>
-
-      <div className="grid grid-4">
+      <div className="section grid grid-4">
         <article className="card kpi"><span className="small">Enrolled courses</span><strong>{user.enrollments.length}</strong></article>
-        <article className="card kpi"><span className="small">Progress summary</span><strong>{avgProgress}%</strong></article>
-        <article className="card kpi"><span className="small">Certificate status</span><strong>{user.certificates[0]?.isIssued ? "Issued" : "Pending"}</strong></article>
-        <article className="card kpi"><span className="small">Profile completion</span><strong>{user.cityState && user.lawCollege ? "92%" : "68%"}</strong></article>
+        <article className="card kpi"><span className="small">Average progress</span><strong>{avgProgress}%</strong></article>
+        <article className="card kpi"><span className="small">Certificate status</span><strong>{user.certificates[0]?.isIssued ? "Issued" : "In review"}</strong></article>
+        <article className="card kpi"><span className="small">Profile readiness</span><strong>{user.cityState && user.lawCollege ? "92%" : "68%"}</strong></article>
       </div>
 
-      <div className="grid grid-2" style={{ marginTop: 12 }}>
+      <div className="section grid grid-2">
         <article className="card">
-          <h3 style={{ marginTop: 0 }}>Upcoming live class</h3>
-          {nextLiveClass ? <>
-            <p><strong>{nextLiveClass.title}</strong> · {nextLiveClass.course.title}</p>
-            <p className="small">{new Date(nextLiveClass.classDate).toLocaleString()}</p>
-            <a className="btn btn-soft" href={nextLiveClass.meetingLink}>Join Class</a>
-          </> : <p className="small">No upcoming class yet. Check the live schedule page for updates.</p>}
+          <h3>Upcoming live class</h3>
+          {nextLiveClass ? (
+            <>
+              <p><strong>{nextLiveClass.title}</strong> • {nextLiveClass.course.title}</p>
+              <p className="small">{new Date(nextLiveClass.classDate).toLocaleString()}</p>
+              <a className="btn btn-soft" href={nextLiveClass.meetingLink}>Join live class</a>
+            </>
+          ) : <p className="small">No upcoming class currently scheduled.</p>}
         </article>
 
         <article className="card">
-          <h3 style={{ marginTop: 0 }}>Announcements</h3>
-          <p className="small">• New assignment rubric for compliance drafting uploaded.</p>
-          <p className="small">• Weekend Q&A session announced for enrolled students.</p>
-          <p className="small">• Certificate issuance batch will run every Friday.</p>
+          <h3>Assessment and certification track</h3>
+          <p>Keep assignments and quiz attempts above threshold to remain certificate-eligible.</p>
+          <div className="progress"><span style={{ width: `${avgProgress}%` }} /></div>
+          <p className="small" style={{ marginTop: 8 }}>Current completion trend: {avgProgress >= 80 ? "Excellent" : "Needs consistency"}</p>
         </article>
       </div>
 
-      <div className="grid grid-4" style={{ marginTop: 12 }}>
-        {studentNav.slice(1).map((item) => (
-          <Link key={item.href} href={item.href} className="card"><h4 style={{ margin: 0 }}>{item.label}</h4><p className="small">Open module</p></Link>
-        ))}
-      </div>
-
-      <div className="card" style={{ marginTop: 12 }}>
-        <h3 style={{ marginTop: 0 }}>Latest payment status</h3>
-        {user.payments.length === 0 ? <p className="small">No payment records available yet.</p> : (
+      <div className="section card">
+        <h3>Recent payments</h3>
+        {user.payments.length === 0 ? <p className="small">No payment records yet.</p> : (
           <div className="table-wrap">
             <table className="table"><thead><tr><th>Course</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>
-              {user.payments.map((payment) => <tr key={payment.id}><td>{payment.course.title}</td><td>₹{payment.amountInr}</td><td><span className={`badge ${payment.status === "SUCCESS" ? "badge-success" : payment.status === "PENDING" ? "badge-warning" : "badge-danger"}`}>{payment.status}</span></td><td>{new Date(payment.createdAt).toLocaleDateString()}</td></tr>)}
+              {user.payments.map((payment) => (
+                <tr key={payment.id}>
+                  <td>{payment.course.title}</td>
+                  <td>₹{payment.amountInr}</td>
+                  <td><span className={`badge ${payment.status === "SUCCESS" ? "badge-success" : payment.status === "PENDING" ? "badge-warning" : "badge-danger"}`}>{payment.status}</span></td>
+                  <td>{new Date(payment.createdAt).toLocaleDateString()}</td>
+                </tr>
+              ))}
             </tbody></table>
           </div>
         )}

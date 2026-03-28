@@ -1,0 +1,2 @@
+<?php require_once __DIR__.'/../config/bootstrap.php'; if($_SERVER['REQUEST_METHOD']==='POST'){if(verify_csrf($_POST['csrf_token']??'') && login_admin($db,sanitize($_POST['email']),$_POST['password'])) redirect('/admin/index.php'); flash('error','Invalid login'); redirect('/admin/login.php');}
+?><h2>Admin Login</h2><?php if($m=flash('error')) echo e($m);?><form method="post"><input type="hidden" name="csrf_token" value="<?=csrf_token()?>"><input name="email" type="email" required><input name="password" type="password" required><button>Login</button></form>

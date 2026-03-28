@@ -1,0 +1,3 @@
+<?php $metaTitle='About | LexAI Academy'; include __DIR__.'/includes/header.php'; ?>
+<section class="container py-5"><h1>About LexAI Academy</h1><p>LexAI Academy is an India-focused legal-tech education platform helping law students, junior advocates, associates, and legal researchers build practical AI skills for real legal work. We deliver structured programs on AI legal research, drafting acceleration, contract analysis support, productivity workflows, and ethical AI governance for legal practice.</p><p>Our curriculum is practical, assessment-driven, and aligned to internships, chambers, law-firm workflows, and in-house legal functions.</p></section>
+<?php include __DIR__.'/includes/footer.php'; ?>

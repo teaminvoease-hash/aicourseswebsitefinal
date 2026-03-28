@@ -1,0 +1,4 @@
+<?php $metaTitle='Courses | LexAI Academy'; include __DIR__.'/includes/header.php';
+$courses=$db->query("SELECT * FROM courses WHERE status='published' ORDER BY created_at DESC")->fetchAll(); ?>
+<section class="container py-5"><h1>Legal AI Courses</h1><div class="row g-4 mt-1"><?php foreach($courses as $c): ?><div class="col-md-6 col-lg-4"><div class="card h-100"><div class="card-body"><h5><?=e($c['title'])?></h5><p><?=e($c['short_description'])?></p><div class="small text-muted mb-2"><?=e($c['duration'])?> • <?=e($c['level'])?></div><strong>₹<?=e($c['discounted_price']?:$c['price'])?></strong><div class="mt-3"><a class="btn btn-primary btn-sm" href="/course.php?slug=<?=e($c['slug'])?>">View Course</a></div></div></div></div><?php endforeach; ?></div></section>
+<?php include __DIR__.'/includes/footer.php'; ?>

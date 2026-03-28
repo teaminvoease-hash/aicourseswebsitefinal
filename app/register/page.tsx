@@ -28,7 +28,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setAlert(null);
 
-    if (!agree) return setAlert({ type: "danger", message: "Please accept the Terms and Privacy Policy to complete registration." });
+    if (!agree) return setAlert({ type: "danger", message: "Please accept Terms and Privacy Policy." });
     if ((form.password || "").length < 8) return setAlert({ type: "danger", message: "Password must be at least 8 characters." });
     if (form.password !== form.confirmPassword) return setAlert({ type: "danger", message: "Confirm password does not match." });
 
@@ -45,67 +45,64 @@ export default function RegisterPage() {
     const data = await res.json();
     setSaving(false);
 
-    if (!res.ok) return setAlert({ type: "danger", message: data.error || "Registration failed. Please review your details." });
+    if (!res.ok) return setAlert({ type: "danger", message: data.error || "Registration failed." });
 
-    setAlert({ type: "success", message: "Admission profile created successfully. Redirecting to your student dashboard..." });
+    setAlert({ type: "success", message: "Profile created. Redirecting to workspace..." });
     setTimeout(() => router.push("/student"), 700);
   }
 
   return (
-    <section>
-      <div className="auth-layout">
-        <aside className="auth-panel">
-          <span className="badge badge-info">Admissions open</span>
-          <h1>Enroll in the Legal-Tech AI Program</h1>
-          <p className="small">Build practical legal AI expertise with structured modules, live sessions, and career-focused outcomes.</p>
-          <ul className="auth-list">
-            <li>One-time payment model with full dashboard access.</li>
-            <li>Attend live classes and revisit recordings anytime.</li>
-            <li>Track module and assignment progress.</li>
-            <li>Certificate issued on successful completion criteria.</li>
-          </ul>
-          <p className="small">Trusted by students, associates, and compliance professionals across India.</p>
-        </aside>
+    <section className="auth-shell">
+      <aside className="auth-panel">
+        <span className="badge">Admissions</span>
+        <h1 style={{ marginTop: ".5rem" }}>Join the AI Law Career Accelerator</h1>
+        <p>
+          Build practical legal AI competence with structured labs, live sessions, and high-trust certification.
+        </p>
+        <div className="grid grid-2">
+          <article className="card" style={{ padding: ".7rem" }}><h3>8+ weeks</h3><p>Implementation-led learning journey.</p></article>
+          <article className="card" style={{ padding: ".7rem" }}><h3>Portfolio-first</h3><p>Outcome-focused assignments for employability.</p></article>
+        </div>
+      </aside>
 
-        <form className="card auth-card" onSubmit={onSubmit}>
-          <h2 style={{ marginTop: 0 }}>Student Admission Form</h2>
-          <div className="grid grid-2">
-            <label>Full name<input required onChange={(e) => setForm((p) => ({ ...p, fullName: e.target.value }))} /></label>
-            <label>Email<input type="email" required onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))} /></label>
-            <label>Mobile number<input required minLength={10} onChange={(e) => setForm((p) => ({ ...p, mobile: e.target.value }))} /></label>
-            <label>Law college / university<input required onChange={(e) => setForm((p) => ({ ...p, lawCollege: e.target.value }))} /></label>
-            <label>Year / semester
-              <select required onChange={(e) => setForm((p) => ({ ...p, yearSemester: e.target.value }))}>
-                <option value="">Select current year/semester</option>
-                {yearSemesterOptions.map((option) => <option key={option} value={option}>{option}</option>)}
-              </select>
-            </label>
-            <label>City / state<input required onChange={(e) => setForm((p) => ({ ...p, cityState: e.target.value }))} /></label>
-            <label>Profession
-              <select value={form.profession || "Student"} onChange={(e) => setForm((p) => ({ ...p, profession: e.target.value }))}>
-                {professions.map((p) => <option key={p} value={p}>{p}</option>)}
-              </select>
-            </label>
-            <label>Profile photo URL (optional)<input type="url" onChange={(e) => setForm((p) => ({ ...p, profilePhotoUrl: e.target.value }))} /></label>
-            <label>Password<input type="password" required minLength={8} onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))} /></label>
-            <label>Confirm password<input type="password" required minLength={8} onChange={(e) => setForm((p) => ({ ...p, confirmPassword: e.target.value }))} /></label>
-          </div>
-
-          <div style={{ marginTop: 10 }}>
-            <p className="small" style={{ marginBottom: 4 }}>Password guidance: minimum 8 characters with uppercase letter, number, and symbol.</p>
-            <div className="progress"><span style={{ width: `${passwordScore * 25}%` }} /></div>
-          </div>
-
-          <label style={{ display: "flex", gap: 8, marginTop: 12, fontWeight: 500 }}>
-            <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ width: 16, marginTop: 2 }} />
-            I agree to the <Link href="/terms" style={{ color: "#1d4ed8" }}>Terms</Link> and <Link href="/privacy" style={{ color: "#1d4ed8" }}>Privacy Policy</Link>.
+      <form className="card auth-card" onSubmit={onSubmit}>
+        <h2 style={{ marginTop: 0 }}>Create your learner account</h2>
+        <div className="grid grid-2">
+          <label>Full name<input required onChange={(e) => setForm((p) => ({ ...p, fullName: e.target.value }))} /></label>
+          <label>Email<input type="email" required onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))} /></label>
+          <label>Mobile number<input required minLength={10} onChange={(e) => setForm((p) => ({ ...p, mobile: e.target.value }))} /></label>
+          <label>Law college / university<input required onChange={(e) => setForm((p) => ({ ...p, lawCollege: e.target.value }))} /></label>
+          <label>Year / semester
+            <select required onChange={(e) => setForm((p) => ({ ...p, yearSemester: e.target.value }))}>
+              <option value="">Select year/semester</option>
+              {yearSemesterOptions.map((option) => <option key={option} value={option}>{option}</option>)}
+            </select>
           </label>
+          <label>City / state<input required onChange={(e) => setForm((p) => ({ ...p, cityState: e.target.value }))} /></label>
+          <label>Profession
+            <select value={form.profession || "Student"} onChange={(e) => setForm((p) => ({ ...p, profession: e.target.value }))}>
+              {professions.map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </label>
+          <label>Profile photo URL (optional)<input type="url" onChange={(e) => setForm((p) => ({ ...p, profilePhotoUrl: e.target.value }))} /></label>
+          <label>Password<input type="password" required minLength={8} onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))} /></label>
+          <label>Confirm password<input type="password" required minLength={8} onChange={(e) => setForm((p) => ({ ...p, confirmPassword: e.target.value }))} /></label>
+        </div>
 
-          <button className="btn" type="submit" style={{ marginTop: 12, width: "100%" }} disabled={saving}>{saving ? "Submitting admission..." : "Create Student Account"}</button>
-          {alert ? <p className={`alert alert-${alert.type}`}>{alert.message}</p> : null}
-          <p className="small" style={{ marginTop: 10 }}>Already have an account? <Link href="/login?role=student" style={{ color: "#1d4ed8" }}>Login</Link>.</p>
-        </form>
-      </div>
+        <div style={{ marginTop: 10 }}>
+          <p className="small" style={{ marginBottom: 4 }}>Password strength</p>
+          <div className="progress"><span style={{ width: `${passwordScore * 25}%` }} /></div>
+        </div>
+
+        <label style={{ display: "flex", gap: 8, marginTop: 12 }}>
+          <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} style={{ width: 16, marginTop: 2 }} />
+          I agree to the <Link href="/terms">Terms</Link> and <Link href="/privacy">Privacy Policy</Link>.
+        </label>
+
+        <button className="btn" type="submit" style={{ marginTop: 12, width: "100%" }} disabled={saving}>{saving ? "Submitting..." : "Create Account"}</button>
+        {alert ? <p className={`alert alert-${alert.type}`}>{alert.message}</p> : null}
+        <p className="small" style={{ marginTop: 10 }}>Already registered? <Link href="/login?role=student">Login</Link>.</p>
+      </form>
     </section>
   );
 }

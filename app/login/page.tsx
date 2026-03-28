@@ -17,22 +17,16 @@ function LoginForm() {
   const [alert, setAlert] = useState<{ type: "danger" | "success" | "info"; message: string } | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const heading = useMemo(() => (role === "admin" ? "Admin Control Login" : "Student Learning Login"), [role]);
+  const heading = useMemo(() => (role === "admin" ? "Admin Control Center Login" : "Student Workspace Login"), [role]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setAlert(null);
 
-    if (!emailRegex.test(email.trim())) {
-      return setAlert({ type: "danger", message: "Please enter a valid email format (example: name@domain.com)." });
-    }
-
-    if (password.length < 8) {
-      return setAlert({ type: "danger", message: "Password is too short. Use at least 8 characters to continue." });
-    }
+    if (!emailRegex.test(email.trim())) return setAlert({ type: "danger", message: "Please enter a valid email." });
+    if (password.length < 8) return setAlert({ type: "danger", message: "Password must be at least 8 characters." });
 
     setIsSubmitting(true);
-
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -42,67 +36,66 @@ function LoginForm() {
     const data = await res.json();
     setIsSubmitting(false);
 
-    if (!res.ok) {
-      setAlert({ type: "danger", message: data.error || "Unable to log in right now. Please try again." });
-      return;
-    }
+    if (!res.ok) return setAlert({ type: "danger", message: data.error || "Unable to log in right now." });
 
-    setAlert({ type: "success", message: "Secure sign-in successful. Redirecting to your dashboard..." });
+    setAlert({ type: "success", message: "Secure login successful. Redirecting..." });
     setTimeout(() => {
       router.push(role === "admin" ? "/admin" : "/student");
       router.refresh();
-    }, 500);
+    }, 450);
   }
 
   return (
-    <section>
-      <div className="auth-layout">
-        <aside className="auth-panel">
-          <span className="badge badge-info">Secure legal-tech access</span>
-          <h1 style={{ marginBottom: 8 }}>{heading}</h1>
-          <p className="small">
-            {role === "student"
-              ? "Access your enrolled courses, join live classes, track your progress, and download certificates from one trusted learning portal."
-              : "Authorized admin gateway for admissions, payment operations, class scheduling, and certification workflows."}
-          </p>
-          <ul className="auth-list">
-            <li>Access your enrolled courses instantly.</li>
-            <li>Join live classes and watch recordings.</li>
-            <li>Track learning milestones and assessments.</li>
-            <li>Download your certificate once issued.</li>
-          </ul>
-          <p className="small">Protected by secure session controls and role-based access checks.</p>
-        </aside>
+    <section className="auth-shell">
+      <aside className="auth-panel">
+        <span className="badge">Secure Access</span>
+        <h1 style={{ marginTop: ".5rem" }}>{heading}</h1>
+        <p>
+          Role-based authenticated access to a premium AI law learning platform with dashboard analytics,
+          certificate tracking, and secure session controls.
+        </p>
+        <div className="grid">
+          <article className="card" style={{ padding: ".7rem" }}>
+            <h3>Student Access</h3>
+            <p>Courses, assignments, progress, payments, and certificate verification status.</p>
+          </article>
+          <article className="card" style={{ padding: ".7rem" }}>
+            <h3>Admin Access</h3>
+            <p>Operations console for enrollments, classes, payments, and certification pipelines.</p>
+          </article>
+        </div>
+      </aside>
 
-        <div className="card auth-card">
-          <div className="login-role-switch" style={{ marginBottom: 12 }}>
-            <button type="button" className={role === "student" ? "btn" : "btn btn-outline"} onClick={() => setRole("student")}>Student</button>
-            <button type="button" className={role === "admin" ? "btn" : "btn btn-outline"} onClick={() => setRole("admin")}>Admin</button>
+      <div className="card auth-card">
+        <div className="cta-row" style={{ marginTop: 0 }}>
+          <button type="button" className={role === "student" ? "btn" : "btn btn-outline"} onClick={() => setRole("student")}>Student</button>
+          <button type="button" className={role === "admin" ? "btn" : "btn btn-outline"} onClick={() => setRole("admin")}>Admin</button>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <label>Email<input type="email" placeholder="you@domain.com" value={email} onChange={(e) => setEmail(e.target.value)} /></label>
+          <label>Password<input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} /></label>
+
+          <div className="cta-row" style={{ justifyContent: "space-between", alignItems: "center" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 0 }}>
+              <input style={{ width: 16 }} type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+              Keep me signed in
+            </label>
+            <Link href="/forgot-password" className="small">Forgot password?</Link>
           </div>
 
-          <form onSubmit={handleSubmit}>
-            <label>Email address<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@domain.com" /></label>
-            <label style={{ marginTop: 10 }}>Password<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" /></label>
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10, alignItems: "center" }}>
-              <label style={{ display: "flex", gap: 8, fontWeight: 500 }}><input style={{ width: 16, marginTop: 1 }} type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />Remember me</label>
-              <Link href="#" className="small">Forgot password?</Link>
-            </div>
-            <button className="btn" style={{ width: "100%", marginTop: 14 }} disabled={isSubmitting}>{isSubmitting ? "Verifying..." : role === "admin" ? "Login to Admin Control Panel" : "Login to Student Dashboard"}</button>
-          </form>
+          <button className="btn" style={{ width: "100%", marginTop: 10 }} disabled={isSubmitting}>
+            {isSubmitting ? "Authenticating..." : role === "admin" ? "Login to Admin Control" : "Login to Student Workspace"}
+          </button>
+        </form>
 
-          {alert ? <p className={`alert alert-${alert.type}`}>{alert.message}</p> : null}
-
-          <p className="small" style={{ marginTop: 12 }}>
-            {role === "student" ? <>New learner? <Link href="/register" style={{ color: "#1d4ed8" }}>Create your admission account</Link>.</> : <>Admin access issue? Reach support at <Link href="mailto:admin-support@ailawacademy.in" style={{ color: "#1d4ed8" }}>admin-support@ailawacademy.in</Link>.</>}
-          </p>
-          <p className="small">Need help now? <Link href="/contact" style={{ color: "#1d4ed8" }}>Contact support</Link>.</p>
-          {role === "admin" && <p className="small">Two-factor authentication (coming soon): OTP confirmation will be supported for high-risk sign-ins.</p>}
-        </div>
+        {alert ? <p className={`alert alert-${alert.type}`}>{alert.message}</p> : null}
+        <p className="small" style={{ marginTop: 10 }}>New learner? <Link href="/register">Create your account</Link></p>
       </div>
     </section>
   );
 }
 
 export default function LoginPage() {
-  return <Suspense fallback={<section><h1>Login</h1></section>}><LoginForm /></Suspense>;
+  return <Suspense fallback={<section className="card"><h1>Loading Login...</h1></section>}><LoginForm /></Suspense>;
 }

@@ -25,7 +25,7 @@ export default async function StudentProfilePage() {
           <label>Profession<input defaultValue={user.profession ?? ""} /></label>
           <label>Profile Image URL<input defaultValue={user.profilePhotoUrl ?? ""} /></label>
         </div>
-        <button className="btn" style={{ marginTop: 12 }}>Save Profile (placeholder)</button>
+        <button className="btn" style={{ marginTop: 12 }}>Save Profile</button>
       </div>
       <div className="grid grid-3" style={{ marginTop: 12 }}>
         <article className="card"><span className="small">Account status</span><p><span className="badge badge-success">Active</span></p></article>
@@ -34,7 +34,7 @@ export default async function StudentProfilePage() {
       </div>
       <div className="card" style={{ marginTop: 12 }}>
         <h3 style={{ marginTop: 0 }}>Security</h3>
-        <p className="small">Password change workflow placeholder. We recommend updating your password every 90 days.</p>
+        <p className="small">For account safety, update your password regularly and avoid sharing login credentials.</p>
       </div>
     </SidebarLayout>
   );

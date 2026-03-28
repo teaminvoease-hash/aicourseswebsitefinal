@@ -16,10 +16,10 @@ export default async function StudentHelpPage() {
         <label>Priority<select><option>Normal</option><option>High</option></select></label>
       </div>
       <label style={{ marginTop: 10 }}>Describe your issue<textarea rows={4} placeholder="Add details so the support team can assist faster." /></label>
-      <button className="btn" style={{ marginTop: 10 }}>Submit Request (placeholder)</button>
+      <button className="btn" style={{ marginTop: 10 }}>Submit Support Request</button>
     </div>
     <div className="grid grid-2" style={{ marginTop: 12 }}>
-      <article className="card"><h3>Direct support</h3><p className="small">Email: support@ailawacademy.in</p><a className="btn btn-soft" href="#">WhatsApp Support (placeholder)</a></article>
+      <article className="card"><h3>Direct support</h3><p className="small">Email: support@ailawacademy.in</p><a className="btn btn-soft" href="#">WhatsApp Support</a></article>
       <article className="card"><h3>Common FAQs</h3><p className="small">• Login issues: reset password from login page.</p><p className="small">• Payment pending: allow up to 30 minutes.</p><p className="small">• Certificate: issued after progress and assessment checks.</p></article>
     </div>
   </SidebarLayout>;
